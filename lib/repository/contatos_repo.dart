@@ -18,4 +18,22 @@ class ContatosRepo {
       rethrow;
     }
   }
+
+  Future<void> put(ContatoModel contatoModel) async {
+    var url = '/${contatoModel.objectId}';
+    try {
+      await _customDio.dio.put(url, data: contatoModel.toJson());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> delete(String objectId) async {
+    var url = '/$objectId';
+    try {
+      await _customDio.dio.delete(url);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

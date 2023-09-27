@@ -19,7 +19,6 @@ class _RegistroContatoPageState extends State<RegistroContatoPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: criar btn de criar contato q faz um navigator pop p/ pag anterior
     return Scaffold(
       appBar: AppBar(),
       body: Container(
@@ -77,15 +76,15 @@ class _RegistroContatoPageState extends State<RegistroContatoPage> {
                 Navigator.pop(context);
               });
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.purple)),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: Text(
                 'Cadastrar',
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.purple)),
           )
         ]),
       ),

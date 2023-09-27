@@ -1,4 +1,5 @@
 import 'package:contatos/model/contato_model.dart';
+import 'package:contatos/pages/editar_contato.dart';
 import 'package:contatos/pages/registrar_contato.dart';
 import 'package:contatos/repository/contatos_repo.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,9 @@ class _ContatosPageState extends State<ContatosPage> {
   void initState() {
     super.initState();
     get();
-    setState(() {});
   }
 
-  void get() async {
+  Future<void> get() async {
     _contatosRepo = await contatosRepo.get();
     setState(() {});
   }
@@ -65,35 +65,66 @@ class _ContatosPageState extends State<ContatosPage> {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ListView.builder(
-                itemCount: _contatosRepo.contatos.length,
-                itemBuilder: (BuildContext bc, int index) {
-                  var contato = _contatosRepo.contatos[index];
-                  return Card(
-                    key: Key(contato.objectId),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          width: 100,
-                          height: 100,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10),
-                            Text(
-                              contato.nome,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            Text(contato.telefone)
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
+              child: RefreshIndicator(
+                onRefresh: get,
+                child: ListView.builder(
+                  itemCount: _contatosRepo.contatos.length,
+                  itemBuilder: (BuildContext bc, int index) {
+                    var contato = _contatosRepo.contatos[index];
+                    return Card(
+                      key: Key(contato.objectId),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            width: 100,
+                            height: 100,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10),
+                              Text(
+                                contato.nome,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Text(contato.telefone),
+                              const SizedBox(height: 18),
+                              Text(contato.email)
+                            ],
+                          ),
+                          const Spacer(),
+                          Column(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditarContatoPage(
+                                                    contatoEdit:
+                                                        ContatoModel.put(
+                                                            contato.objectId,
+                                                            contato.nome,
+                                                            contato.telefone,
+                                                            contato.email))));
+                                  },
+                                  icon: const Icon(Icons.edit)),
+                              IconButton(
+                                  onPressed: () async {
+                                    await contatosRepo.delete(contato.objectId);
+                                    get();
+                                  },
+                                  icon: const Icon(Icons.delete))
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

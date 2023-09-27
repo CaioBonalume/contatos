@@ -31,6 +31,8 @@ class ContatoModel {
       this.createdAt, this.updatedAt);
 
   ContatoModel.post(this.nome, this.telefone, this.email);
+  
+  ContatoModel.put(this.objectId,this.nome, this.telefone, this.email);
 
   ContatoModel.fromJson(Map<String, dynamic> json) {
     objectId = json['objectId'];

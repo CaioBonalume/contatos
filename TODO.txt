@@ -1,0 +1,3 @@
+- Colocar foto padrao avatar de contato
+- Colocar negocio de tirar e salvar foto
+- fazer crop da img
