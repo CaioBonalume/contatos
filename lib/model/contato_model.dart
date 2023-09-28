@@ -24,21 +24,24 @@ class ContatoModel {
   String nome = '';
   String telefone = '';
   String email = '';
+  String foto = '';
   String createdAt = '';
   String updatedAt = '';
 
-  ContatoModel(this.objectId, this.nome, this.telefone, this.email,
+  ContatoModel(this.objectId, this.nome, this.telefone, this.email, this.foto,
       this.createdAt, this.updatedAt);
 
-  ContatoModel.post(this.nome, this.telefone, this.email);
-  
-  ContatoModel.put(this.objectId,this.nome, this.telefone, this.email);
+  ContatoModel.post(this.nome, this.telefone, this.email, this.foto);
+
+  ContatoModel.put(
+      this.objectId, this.nome, this.telefone, this.email, this.foto);
 
   ContatoModel.fromJson(Map<String, dynamic> json) {
     objectId = json['objectId'];
     nome = json['nome'];
     telefone = json['telefone'];
     email = json['email'];
+    foto = json['foto'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -49,6 +52,7 @@ class ContatoModel {
     data['nome'] = nome;
     data['telefone'] = telefone;
     data['email'] = email;
+    data['foto'] = foto;
     // data['createdAt'] = createdAt;
     // data['updatedAt'] = updatedAt;
     return data;

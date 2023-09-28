@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:contatos/model/contato_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditarContatoPage extends StatefulWidget {
   final ContatoModel contatoEdit;
@@ -11,6 +14,7 @@ class EditarContatoPage extends StatefulWidget {
 
 class _EditarContatoPageState extends State<EditarContatoPage> {
   late ContatoModel contato;
+  final avt = 'assets/images/avatar.png';
 
   @override
   void initState() {
@@ -28,6 +32,28 @@ class _EditarContatoPageState extends State<EditarContatoPage> {
           children: [
             // TODO: Colocar pre-setado os campos, precisando só alterar o que já tem
             // Talvez utilizando controller: contato.nome, e dps alterar o valor de contato.nome
+            SizedBox(
+                width: 200,
+                height: 200,
+                child: (contato.foto != avt)
+                    ? CircleAvatar(
+                        child: ClipOval(
+                        child: Image.file(File(contato.foto),
+                            height: 200, width: 200, fit: BoxFit.cover),
+                      ))
+                    : CircleAvatar(
+                        child: ClipOval(
+                        child: Image.asset(avt),
+                      ))),
+            ListTile(
+              leading: const Icon(Icons.image),
+              title: const Text('Galeria'),
+              onTap: () async {
+                final ImagePicker picker = ImagePicker();
+                final XFile? image =
+                    await picker.pickImage(source: ImageSource.gallery);
+              },
+            ),
             TextFormField(
               decoration: InputDecoration(hintText: contato.nome),
             ),
@@ -37,6 +63,17 @@ class _EditarContatoPageState extends State<EditarContatoPage> {
             TextFormField(
               decoration: InputDecoration(hintText: contato.email),
             ),
+            const SizedBox(height: 20),
+            TextButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.purple)),
+                child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    child: Text(
+                      'Atualizar',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    )))
           ],
         ),
       ),
